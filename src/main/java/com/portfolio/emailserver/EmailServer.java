@@ -1,6 +1,7 @@
 package com.portfolio.emailserver;
 
 import com.google.gson.Gson;
+import com.portfolio.emailserver.config.CorsConfig;
 import com.portfolio.emailserver.model.ContactInfo;
 import com.portfolio.emailserver.service.ContactMe;
 import org.slf4j.Logger;
@@ -13,11 +14,16 @@ public class EmailServer {
 	private static final Logger logger = LoggerFactory.getLogger(EmailServer.class);
 
 	public static void main(String[] args) {
+		CorsConfig.enableCORS("http://localhost:5173");
+
 		get("/health", (request, response) -> "Server up and running.");
 
 		post("/contact-me", (request, response) -> {
 			ContactInfo contactInfo = new Gson().fromJson(request.body(), ContactInfo.class);
-
+			if (!ContactMe.validateInfo(contactInfo)) {
+				response.status(400);
+				return "Message: Invalid details";
+			}
 			ContactMe.sendEmail(contactInfo);
 
 			String clientIp = request.ip();

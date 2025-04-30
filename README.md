@@ -9,7 +9,7 @@ A lightweight email server built using Spark Java. Provides a simple REST API to
 
 ## Requirements
 
-- Java 8 or later
+- Java 11 or later
 - Maven or Gradle
 
 ## Setup
@@ -21,14 +21,20 @@ git clone https://github.com/yourusername/email-server.git
 cd email-server
 ```
 
-### 2. Set environment variables
+### 2. Configure SMTP Settings
 
-```bash
-export SMTP_HOST=smtp.example.com
-export SMTP_PORT=587
-export SMTP_USERNAME=your-email@example.com
-export SMTP_PASSWORD=your-password
+Update your SMTP credentials and settings in the `application.properties` file located in the `src/main/resources`
+directory:
+
+```properties
+smtp.host=smtp.example.com
+smtp.port=587
+smtp.username=your-email@example.com
+smtp.password=your-password
 ```
+
+> **Note:** Avoid hardcoding sensitive values in version-controlled files. Consider using external config management for
+> production.
 
 ### 3. Build and run
 
@@ -45,5 +51,3 @@ java -jar target/email-server.jar
 ./gradlew build
 java -jar build/libs/email-server.jar
 ```
-
-[//]: # (Add about application.properties)
