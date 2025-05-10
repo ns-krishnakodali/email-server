@@ -3,6 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 **/application.properties
+dependency-reduced-pom.xml
 
 ### IntelliJ IDEA ###
 .idea/

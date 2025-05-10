@@ -4,14 +4,14 @@ import com.google.gson.Gson;
 import com.portfolio.emailserver.config.CorsConfig;
 import com.portfolio.emailserver.model.ContactInfo;
 import com.portfolio.emailserver.service.ContactMe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class EmailServer {
-	private static final Logger logger = LoggerFactory.getLogger(EmailServer.class);
+	private static final Logger logger = LogManager.getLogger(EmailServer.class);
 
 	public static void main(String[] args) {
 		CorsConfig.enableCORS("http://localhost:5173");

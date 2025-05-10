@@ -2,8 +2,9 @@ package com.portfolio.emailserver.service;
 
 import com.portfolio.emailserver.config.AppConfig;
 import com.portfolio.emailserver.model.ContactInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -17,10 +18,9 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class ContactMe {
+	private static final Logger logger = LogManager.getLogger(ContactMe.class);
 	private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
 			Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-	private static final Logger logger = LoggerFactory.getLogger(ContactMe.class);
 
 	public static boolean validateInfo(ContactInfo contactInfo) {
 		if (Objects.isNull(contactInfo)) {
@@ -35,11 +35,16 @@ public class ContactMe {
 		final String email = AppConfig.get("smtp.email");
 		final String password = AppConfig.get("smtp.password");
 
+		String smtpPort = AppConfig.get("smtp.port");
+		if(smtpPort == null) {
+			smtpPort = "587";
+		}
+
 		Properties properties = new Properties();
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.starttls.enable", "true");
 		properties.put("mail.smtp.host", "smtp.gmail.com");
-		properties.put("mail.smtp.port", "587");
+		properties.put("mail.smtp.port", smtpPort);
 
 		Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
