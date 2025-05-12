@@ -38,7 +38,7 @@ public class ContactMe {
 		final String password = appConfig.getSmtpPassword();
 
 		String smtpPort = appConfig.getSmtpPort();
-		if(Objects.isNull(smtpPort)) {
+		if (Objects.isNull(smtpPort)) {
 			smtpPort = "587";
 		}
 
