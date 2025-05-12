@@ -1,24 +1,28 @@
 package com.portfolio.emailserver.config;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import lombok.Getter;
 
+@Getter
 public class AppConfig {
-	private static final Properties properties = new Properties();
+	private final String smtpEmail;
+	private final String smtpPassword;
+	private final String smtpPort;
 
-	static {
-		try (InputStream input = AppConfig.class.getClassLoader().getResourceAsStream("application.properties")) {
-			if (input == null) {
-				throw new RuntimeException("Unable to find application.properties");
-			}
-			properties.load(input);
-		} catch (IOException ex) {
-			throw new RuntimeException("Failed to load configuration", ex);
+	private AppConfig() {
+		smtpEmail = System.getenv("SMTP_EMAIL");
+		smtpPassword = System.getenv("SMTP_PASSWORD");
+		smtpPort = System.getenv("SMTP_PORT") != null ? System.getenv("SMTP_PORT") : "587";
+
+		if (smtpEmail == null || smtpPassword == null) {
+			throw new RuntimeException("Required environment variables are missing.");
 		}
 	}
 
-	public static String get(String key) {
-		return properties.getProperty(key);
+	public static AppConfig getInstance() {
+		return InstanceHolder.instance;
+	}
+
+	private static final class InstanceHolder {
+		private static final AppConfig instance = new AppConfig();
 	}
 }

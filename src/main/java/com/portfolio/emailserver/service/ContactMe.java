@@ -32,11 +32,13 @@ public class ContactMe {
 	}
 
 	public static void sendEmail(ContactInfo contactInfo) {
-		final String email = AppConfig.get("smtp.email");
-		final String password = AppConfig.get("smtp.password");
+		AppConfig appConfig = AppConfig.getInstance();
 
-		String smtpPort = AppConfig.get("smtp.port");
-		if(smtpPort == null) {
+		final String email = appConfig.getSmtpEmail();
+		final String password = appConfig.getSmtpPassword();
+
+		String smtpPort = appConfig.getSmtpPort();
+		if(Objects.isNull(smtpPort)) {
 			smtpPort = "587";
 		}
 

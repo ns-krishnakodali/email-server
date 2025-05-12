@@ -2,16 +2,13 @@
 
 A lightweight email server built using Spark Java. Provides a simple REST API to send emails using SMTP.
 
-## Features
-
-- REST API for sending emails using SMTP
-- Uses SMTP for delivery
-
+---
 ## Requirements
+* Java 11 or later
+* Maven or Gradle
+* Docker (optional)
 
-- Java 11 or later
-- Maven or Gradle
-
+---
 ## Setup
 
 ### 1. Clone the repository
@@ -21,22 +18,37 @@ git clone https://github.com/yourusername/email-server.git
 cd email-server
 ```
 
-### 2. Configure SMTP Settings
+### 2. Configure SMTP Settings via Environment Variables
 
-Update your SMTP credentials and settings in the `application.properties` file located in the `src/main/resources`
-directory:
+Before running the application, set the following environment variables:
 
-```properties
-smtp.host=smtp.example.com
-smtp.port=587
-smtp.username=your-email@example.com
-smtp.password=your-password
+| Variable        | Description                    |
+| --------------- | ------------------------------ |
+| `SMTP_EMAIL`    | Your SMTP email address        |
+| `SMTP_PASSWORD` | Your SMTP email password/token |
+| `SMTP_PORT`     | SMTP port (default is `587`)   |
+
+#### On Linux/macOS:
+
+```bash
+export SMTP_EMAIL=your-email@example.com
+export SMTP_PASSWORD=your-password
+export SMTP_PORT=587
 ```
 
-> **Note:** Avoid hardcoding sensitive values in version-controlled files. Consider using external config management for
-> production.
+#### On Windows (PowerShell):
 
-### 3. Build and run
+```powershell
+$env:SMTP_EMAIL="your-email@example.com"
+$env:SMTP_PASSWORD="your-password"
+$env:SMTP_PORT="587"
+```
+
+#### In IntelliJ IDEA:
+
+In IntelliJ, add the **Environment Variables** (`SMTP_EMAIL`, `SMTP_PASSWORD`, `SMTP_PORT`) and their values.
+
+### 3. Build and Run
 
 #### Using Maven
 
@@ -50,4 +62,25 @@ java -jar target/email-server.jar
 ```bash
 ./gradlew build
 java -jar build/libs/email-server.jar
+```
+
+---
+
+## Running with Docker
+
+### 1. Build the Docker image
+
+```bash
+docker build -t email-server .
+```
+
+### 2. Run the container with environment variables
+
+```bash
+docker run -d \
+  -e SMTP_EMAIL=your-email@example.com \
+  -e SMTP_PASSWORD=your-password \
+  -e SMTP_PORT=587 \
+  -p 4567:4567 \
+  email-server
 ```
