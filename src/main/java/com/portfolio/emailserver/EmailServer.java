@@ -14,7 +14,7 @@ public class EmailServer {
 	private static final Logger logger = LogManager.getLogger(EmailServer.class);
 
 	public static void main(String[] args) {
-		CorsConfig.enableCORS("http://localhost:5173");
+		CorsConfig.enableCORS("https://nskrishnakodali.com", "http://localhost:5173");
 
 		get("/health", (request, response) -> "Server up and running.");
 
